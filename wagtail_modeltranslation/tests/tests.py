@@ -132,6 +132,7 @@ class ModeltranslationTransactionTestBase(TransactionTestCase):
                 from wagtail_modeltranslation.models import handle_translation_registrations
                 handle_translation_registrations()
 
+<<<<<<< 78f5fb7113a3bf4d2ab4be3a5cdffebf59436897
                 # A rather dirty trick to import models into module namespace, but not before
                 # tests app has been added into INSTALLED_APPS and loaded
                 # (that's why this is not imported in normal import section)
@@ -152,6 +153,12 @@ class ModeltranslationTransactionTestBase(TransactionTestCase):
                 from wagtail_modeltranslation.tests import models as t_models, translation as t_translation
                 models = t_models
                 translation = t_translation
+
+                from django.db import connections, DEFAULT_DB_ALIAS
+                # 6. Syncdb
+                call_command('migrate', verbosity=0, migrate=False, interactive=False, run_syncdb=True,
+                             database=connections[DEFAULT_DB_ALIAS].alias, load_initial_data=False)
+
 
     def setUp(self):
         self._old_language = get_language()
